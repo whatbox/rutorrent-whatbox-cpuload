@@ -1,0 +1,6 @@
+plugin.description: Inspired by Novik's plugin
+plugin.author: Whatbox Inc.
+plugin.version: 1.0
+plugin.runlevel: 9
+rtorrent.need: 0
+plugin.help: https://whatbox.ca/support
