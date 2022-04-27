@@ -83,17 +83,17 @@ plugin.init = function() {
 			return;
 		}
 
-	        if (typeof window.fetch === "function") {
-	    		fetch('/labs/stats?json=1')
-	    		.then(function (resp) { return resp.json(); })
-	    		.then(function (data) {
-	    			plugin.graph.processData(data[0]);
-	    		});
-	        } else {
-	            $.getJSON('/labs/stats?json=1', function (data){
-	                plugin.graph.processData(data[0]);
-	            });
-	        }
+		if (typeof window.fetch === "function") {
+			fetch('/labs/stats?json=1')
+			.then(function (resp) { return resp.json(); })
+			.then(function (data) {
+				plugin.graph.processData(data.cpu);
+			});
+		} else {
+			$.getJSON('/labs/stats?json=1', function (data){
+				plugin.graph.processData(data.cpu);
+			});
+		}
 	};
 
 	setInterval(function(){
