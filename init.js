@@ -1,5 +1,6 @@
+/* eslint-env jquery */
+/* global clearCanvas, plugin */
 plugin.loadMainCSS();
-
 
 //rLoadGraph
 function rLoadGraph(){}
@@ -29,7 +30,7 @@ rLoadGraph.prototype.draw = function( percent ) {
 				yaxis: { min: 0, /*max: 100,*/ show: false, noTicks: true }
 			});
 
-			self.container.append( $("<div>").attr("id","meter-cpu-text").text(percent.toFixed(2)+'%') ).attr("title", percent.toFixed(2)+'%');
+			self.container.append( $('<div>').attr('id','meter-cpu-text').text(percent.toFixed(2)+'%') ).attr('title', percent.toFixed(2)+'%');
 		}
 	}
 	);
@@ -53,15 +54,15 @@ rLoadGraph.prototype.processData = function(proc) {
 
 	var used  = 0,
 		total = 0,
-		i, il, j;
+		i, il;
 
-	for(i=0,il=proc.length;i<il;++i) {
-		used  += proc[i].user-this.last[i].user;
-		total += proc[i].user-this.last[i].user;
-		used  += proc[i].nice-this.last[i].nice;
-		total += proc[i].nice-this.last[i].nice;
+	for (i=0,il=proc.length;i<il;++i) {
 		used  += proc[i].system-this.last[i].system;
+		used  += proc[i].user-this.last[i].user;
+		used  += proc[i].nice-this.last[i].nice;
 		total += proc[i].system-this.last[i].system;
+		total += proc[i].user-this.last[i].user;
+		total += proc[i].nice-this.last[i].nice;
 
 		total += proc[i].idle-this.last[i].idle;
 	}
@@ -72,9 +73,9 @@ rLoadGraph.prototype.processData = function(proc) {
 
 //Plugin stuff
 plugin.init = function() {
-	var box = $("<div>").attr("id","meter-cpu-holder");
+	var box = $('<div>').attr('id','meter-cpu-holder');
 
-	plugin.addPaneToStatusbar("meter-cpu-td", box.get(0));
+	plugin.addPaneToStatusbar('meter-cpu-td', box.get(0));
 	plugin.graph = new rLoadGraph();
 	plugin.graph.create(box);
 
@@ -83,17 +84,11 @@ plugin.init = function() {
 			return;
 		}
 
-		if (typeof window.fetch === "function") {
-			fetch('/labs/stats?json=1')
-			.then(function (resp) { return resp.json(); })
-			.then(function (data) {
-				plugin.graph.processData(data.cpu);
-			});
-		} else {
-			$.getJSON('/labs/stats?json=1', function (data){
-				plugin.graph.processData(data.cpu);
-			});
-		}
+		fetch('/labs/stats?json=1').then(function (resp) {
+			return resp.json();
+		}).then(function (data) {
+			plugin.graph.processData(data.cpu);
+		});
 	};
 
 	setInterval(function(){
@@ -105,7 +100,7 @@ plugin.init = function() {
 };
 
 plugin.onRemove = function() {
-	plugin.removePaneFromStatusbar("meter-cpu-td");
+	plugin.removePaneFromStatusbar('meter-cpu-td');
 };
 
 plugin.init();
