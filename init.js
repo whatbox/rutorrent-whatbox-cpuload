@@ -79,7 +79,7 @@ plugin.init = function() {
 	plugin.graph.create(box);
 
 	plugin.check = function(){
-		if (document.hidden) {
+		if (document.hidden || !navigator.onLine) {
 			return;
 		}
 
