@@ -161,8 +161,8 @@ plugin.init = function () {
 							$("<td>").append($("<div>").attr("id", "meter-cpu-holder"))
 						)
 					)
-				)
-				.get(0)
+				),
+			0, true
 		);
 		plugin.graph = new wbLoadGraph();
 		plugin.graph.create($("#meter-cpu-holder"));
